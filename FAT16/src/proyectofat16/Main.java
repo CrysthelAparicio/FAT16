@@ -5,7 +5,6 @@ package proyectofat16;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Crys
@@ -48,10 +47,68 @@ public class Main {
         while (shell) {
             System.out.print(current_dir + " : ");
             String entrada = read.nextLine();
-            //Otra carpeta 
+            entrada = OPFAT16.quitar_espacios(entrada).toLowerCase();
             String[] comando = entrada.split(" ");
-
+            if (comando.length == 1) {
+                //switch cuando solo viene el comando sin mas papadas
+                switch (comando[0]) {
+                    case "pwd": {
+                        System.out.println(current_dir);
+                        break;
+                    }
+                    case "q": {
+                        shell = false;
+                        break;
+                    }
+                    case "pfat": {
+                        for (int i = 0; i < TAM_FAT / TAM_FATENTRY; i++) {
+                            byte[] read_fat_registry = OPFAT16.leer(i * TAM_FATENTRY + TAM_RAIZ, TAM_FATENTRY);
+                            System.out.println("INDICE DE FAT: " + i * TAM_FATENTRY + "\tPUNTERO: " + OPFAT16.bytes_a_short(read_fat_registry));
+                        }
+                        break;
+                    }
+                    default: {
+                        System.out.println("Comando no encontrado");
+                        break;
+                    }
+                }
+            } else {
+                // switch de comandos de shell mkdir, cd, ls -l, rmdir, cat, rm, chmod
+                switch (comando[0]) {
+                    case "mkdir": {
+                        MKDIR.mkdir(comando[1]);
+                        break;
+                    }
+                    case "cd": {
+                        //CD.cd(comando[1]);
+                        break;
+                    }
+                    case "ls": {
+                        if ("-l".equals(comando[1])) {
+                            //LS.ls(true);
+                        } else {
+                            System.out.println("comando not found");
+                        }
+                        break;
+                    }
+                    case "rmdir": {
+                        //RMDIR.rmdir(comando[1]);
+                        break;
+                    }
+                    case "cat": {
+                        //CAT.cat(comando);
+                        break;
+                    }
+                    case "rm": {
+                        //RM.rm(comando[1]);
+                        break;
+                    }
+                    case "chmod": {
+                        //CHMOD.chmod(comando);
+                        break;
+                    }
+                }
+            }
         }
-
     }
 }
